@@ -11,10 +11,18 @@ import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
+import { WithContext as ReactTags } from 'react-tag-input';
 
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
 const PosterInner = ({ user }) => {
   const contentRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
+  const [tags, setTags] = useState([{ id: 'sohar', text: 'sohar' }]);
 
   const { mutate } = usePostPages();
 
@@ -41,16 +49,81 @@ const PosterInner = ({ user }) => {
     [mutate]
   );
 
+  const handleAddition = (tag) => {
+    setTags([...tags, tag]);
+  };
+
+  const handleDrag = (tag, currPos, newPos) => {
+    const newTags = tags.slice();
+
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
+
+    // re-render
+    setTags(newTags);
+  };
+
+  const handleTagClick = (index) => {
+    console.log('The tag at index ' + index + ' was clicked');
+  };
+  const handleDelete = (i) => {
+    setTags(tags.filter((tag, index) => index !== i));
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <Container className={styles.poster}>
-        <Avatar size={40} username={user.username} url={user.profilePicture} />
-        <Input
-          ref={contentRef}
-          className={styles.input}
-          placeholder={`What's on your mind, ${user.name}?`}
-          ariaLabel={`What's on your mind, ${user.name}?`}
-        />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <label htmlFor="title">Title:&nbsp;</label>
+            <input name="title" type="text" />
+          </div>
+          <br />
+          {/* <Avatar
+            size={40}
+            username={user.username}
+            url={user.profilePicture}
+          /> */}
+          <label htmlFor="content">Content:&nbsp;</label>
+          <br />
+          <textarea
+            ref={contentRef}
+            name="content"
+            className={styles.input}
+            rows={4}
+            cols={40}
+            placeholder={`Woah! save the culture for future., ${user.name}?`}
+            ariaLabel={`Woah! save the culture for future., ${user.name}?`}
+          />
+        </div>
+        <br />
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flex: '2rem 0',
+            height: '150px',
+          }}
+        >
+          <label htmlFor="">Tags:&nbsp;</label>
+          <ReactTags
+            tags={tags}
+            delimiters={delimiters}
+            handleDelete={handleDelete}
+            handleAddition={handleAddition}
+            handleDrag={handleDrag}
+            handleTagClick={handleTagClick}
+            inputFieldPosition="bottom"
+            autocomplete
+          />
+          <br />
+        </div>
+        <br />
         <Button type="success" loading={isLoading}>
           Post
         </Button>
@@ -66,7 +139,7 @@ const Poster = () => {
   return (
     <Wrapper>
       <div className={styles.root}>
-        <h3 className={styles.heading}>Share your thoughts</h3>
+        <h3 className={styles.heading}>😍Contibute to community!</h3>
         {loading ? (
           <LoadingDots>Loading</LoadingDots>
         ) : data?.user ? (

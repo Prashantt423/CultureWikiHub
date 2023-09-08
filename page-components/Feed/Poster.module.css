@@ -3,7 +3,6 @@
   padding: 32px;
   box-shadow: var(--shadow-smallest);
   border-radius: 8px;
-  height: 132px;
   transition: ease 0.2s box-shadow;
 }
 
@@ -19,6 +18,8 @@
 
 .poster {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .heading {

@@ -106,7 +106,15 @@ const Nav = () => {
           justifyContent="space-between"
         >
           <Link href="/">
-            <a className={styles.logo}>Next.js MongoDB App</a>
+            <div className={styles.logo}
+           
+            >
+              <img
+               style={{
+                borderRadius:"50%"
+              }}
+              src="/images/cultureHub_logo_2.jpg" width={50} alt="" />
+            </div>
           </Link>
           <Container>
             {user ? (
