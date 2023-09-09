@@ -1,5 +1,5 @@
 .title {
-  font-size: 8rem;
+  font-size: 4rem;
   text-align: center;
   font-weight: 800;
   line-height: 1.1;
@@ -46,4 +46,10 @@
   font-size: 1.25rem;
   text-align: center;
   margin: 8px 0 64px;
+}
+
+.logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

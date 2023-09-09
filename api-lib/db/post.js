@@ -49,12 +49,16 @@ export async function findPosts(db, before, by, limit = 10) {
     .toArray();
 }
 
-export async function insertPost(db, { content, creatorId }) {
+export async function insertPost(db, { content,title,tags,language, creatorId }) {
   const post = {
     content,
     creatorId,
+    title,
+    tags,
+    language,
     createdAt: new Date(),
   };
+  console.log(post)
   const { insertedId } = await db.collection('posts').insertOne(post);
   post._id = insertedId;
   return post;

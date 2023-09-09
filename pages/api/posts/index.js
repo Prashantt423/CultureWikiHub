@@ -26,8 +26,11 @@ handler.post(
     type: 'object',
     properties: {
       content: ValidateProps.post.content,
+      title:ValidateProps.post.title,
+      tags:ValidateProps.post.tags,
+      language:ValidateProps.post.language,
     },
-    required: ['content'],
+    required: ['content','title','language'],
     additionalProperties: false,
   }),
   async (req, res) => {
@@ -36,11 +39,14 @@ handler.post(
     }
 
     const db = await getMongoDb();
-
-    const post = await insertPost(db, {
+    let obj =  {
       content: req.body.content,
+      title: req.body.title,
+      tags:req.body.tags,
+      language:req.body.language,
       creatorId: req.user._id,
-    });
+    }
+    const post = await insertPost(db, obj);
 
     return res.json({ post });
   }

@@ -29,6 +29,9 @@ const Post = ({ post, className }) => {
           </Container>
         </a>
       </Link>
+      <div className={styles.title}>
+        <h3>{post.title}</h3>
+      </div>
       <div className={styles.wrap}>
         <p className={styles.content}>{post.content}</p>
       </div>
@@ -36,6 +39,7 @@ const Post = ({ post, className }) => {
         <time dateTime={String(post.createdAt)} className={styles.timestamp}>
           {timestampTxt}
         </time>
+        <div>{post.tags?.join(',')}</div>
       </div>
     </div>
   );

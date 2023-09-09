@@ -21,8 +21,10 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 const PosterInner = ({ user }) => {
   const contentRef = useRef();
+  const titleRef = useRef();
+  const languageRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
-  const [tags, setTags] = useState([{ id: 'sohar', text: 'sohar' }]);
+  const [tags, setTags] = useState([]);
 
   const { mutate } = usePostPages();
 
@@ -34,10 +36,18 @@ const PosterInner = ({ user }) => {
         await fetcher('/api/posts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: contentRef.current.value }),
+          body: JSON.stringify({
+            content: contentRef.current.value,
+            title: titleRef.current.value,
+            tags: tags.map((t) => t.text),
+            language: languageRef.current.value,
+          }),
         });
         toast.success('You have posted successfully');
         contentRef.current.value = '';
+        titleRef.current.value = '';
+        languageRef.current.value = '';
+        setTags([]);
         // refresh post lists
         mutate();
       } catch (e) {
@@ -46,7 +56,7 @@ const PosterInner = ({ user }) => {
         setIsLoading(false);
       }
     },
-    [mutate]
+    [mutate, tags]
   );
 
   const handleAddition = (tag) => {
@@ -66,8 +76,13 @@ const PosterInner = ({ user }) => {
   const handleTagClick = (index) => {
     console.log('The tag at index ' + index + ' was clicked');
   };
+
   const handleDelete = (i) => {
     setTags(tags.filter((tag, index) => index !== i));
+  };
+
+  const handleTagInputChange = (d) => {
+    // console.log(d);
   };
 
   return (
@@ -81,7 +96,17 @@ const PosterInner = ({ user }) => {
             }}
           >
             <label htmlFor="title">Title:&nbsp;</label>
-            <input name="title" type="text" />
+            <input name="title" type="text" ref={titleRef} />
+          </div>
+          <br />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <label htmlFor="title">Language:&nbsp;</label>
+            <input name="title" type="text" ref={languageRef} />
           </div>
           <br />
           {/* <Avatar
@@ -118,6 +143,7 @@ const PosterInner = ({ user }) => {
             handleAddition={handleAddition}
             handleDrag={handleDrag}
             handleTagClick={handleTagClick}
+            handleInputChange={handleTagInputChange}
             inputFieldPosition="bottom"
             autocomplete
           />
