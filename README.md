@@ -1,4 +1,4 @@
-# CultureWikiHub Hackathon Project
+# CultureWikiHub Project
 
 This project is built using Next.js and MongoDB. We would like to extend our gratitude to [hoangvvo/nextjs-mongodb-app](https://github.com/hoangvvo/nextjs-mongodb-app) for providing the initial template that served as a foundation for our project.
 
