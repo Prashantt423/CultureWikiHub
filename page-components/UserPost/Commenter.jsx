@@ -48,11 +48,11 @@ const CommenterInner = ({ user, post }) => {
         <Input
           ref={contentRef}
           className={styles.input}
-          placeholder="Add your comment"
-          ariaLabel="Add your comment"
+          placeholder="Suggest your own version of content to the post."
+          ariaLabel="Suggest your own version of content to the post."
         />
         <Button type="success" loading={isLoading}>
-          Comment
+          Suggest Edit
         </Button>
       </Container>
     </form>

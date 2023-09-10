@@ -62,3 +62,8 @@
   margin: 0;
   color: var(--accents-5);
 }
+
+.vote{
+  display: flex;
+  align-items: center;
+}

@@ -14,5 +14,7 @@ export const ValidateProps = {
   },
   comment: {
     content: { type: 'string', minLength: 1, maxLength: 280 },
+    upvotes: { type: 'array', items: { type: 'string' } },
+    downvotes: { type: 'array', items: { type: 'string' } },
   },
 };

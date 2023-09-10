@@ -33,8 +33,28 @@ export async function insertComment(db, postId, { content, creatorId }) {
     postId: new ObjectId(postId),
     creatorId,
     createdAt: new Date(),
+    upvotes: [],
+    downvotes: [],
   };
   const { insertedId } = await db.collection('comments').insertOne(comment);
   comment._id = insertedId;
   return comment;
+}
+
+export async function findByIdAndUpdate(db, commentId, update) {
+  try {
+    const commentObjectId = new ObjectId(commentId);
+
+    // Use findOneAndUpdate to find the comment by its _id and update it
+    const result = await db.collection('comments').findOneAndUpdate(
+      { _id: commentObjectId },
+      update, // Use the provided `update` object to push a new entry
+      { returnOriginal: false } // Set returnOriginal to false to get the updated document
+    );
+
+    return result.value; // Return the updated comment
+  } catch (error) {
+    console.error('Error updating comment:', error);
+    throw error;
+  }
 }
